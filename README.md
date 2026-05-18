@@ -20,16 +20,16 @@
 [![Status](https://img.shields.io/badge/Status-Production_Ready-brightgreen?style=flat-square)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-3dbb6b?style=flat-square)](CONTRIBUTING.md)
 <p align="center">
-  <a href="https://github.com/your-github-username">
+  <a href="https://github.com/Jai-Shankar1033">
     <img src="https://img.shields.io/badge/GitHub-Profile-black?style=for-the-badge&logo=github" />
   </a>
-  <a href="https://linkedin.com/in/your-linkedin">
+  <a href="https://www.linkedin.com/in/jai-shankar-704337312/">
     <img src="https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin" />
   </a>
 </p>
 <br/>
 
-[**Live Demo**](https://agribridge.vercel.app) · [**Documentation**](docs/) · [**Quick Start**](#-quick-start) · [**Architecture**](#-architecture)
+[**Live Demo**](https://github.com/Jai-Shankar1033/AgriBridge-AI/releases/download/v1.0.0/demo.mp4) · [**Documentation**](docs/) · [**Quick Start**](#-quick-start) · [**Architecture**](#-architecture)
 
 </div>
 
