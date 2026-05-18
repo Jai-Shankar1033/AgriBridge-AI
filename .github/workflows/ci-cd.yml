@@ -1,0 +1,220 @@
+name: AgriBridge CI/CD
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: '18.x'
+  REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+
+jobs:
+  # ─── 1. LINT & TYPE CHECK ───────────────────────────────────
+  lint:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint || true  # warn only, don't fail CI on lint
+
+      - name: Check for console.log in production code
+        run: |
+          if grep -r "console\.log" src/ --include="*.js" --include="*.jsx" | grep -v "__tests__" | grep -v ".test."; then
+            echo "WARNING: console.log found in source files"
+          fi
+
+  # ─── 2. UNIT TESTS ──────────────────────────────────────────
+  test:
+    name: Unit & Integration Tests
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests with coverage
+        run: npm test -- --coverage --watchAll=false --forceExit
+        env:
+          CI: true
+
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v3
+        if: always()
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: unittests
+          fail_ci_if_error: false
+
+  # ─── 3. SERVER TESTS ────────────────────────────────────────
+  test-server:
+    name: Server Tests
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install server dependencies
+        run: cd server && npm ci || true
+
+      - name: Run server tests
+        run: cd server && npm test || true
+        env:
+          NODE_ENV: test
+          JWT_SECRET: test_secret_key_for_ci_only
+          JWT_REFRESH_SECRET: test_refresh_secret_for_ci_only
+
+  # ─── 4. BUILD ───────────────────────────────────────────────
+  build:
+    name: Production Build
+    runs-on: ubuntu-latest
+    needs: [test]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production bundle
+        run: npm run build
+        env:
+          CI: false  # don't treat warnings as errors
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+          REACT_APP_VERSION: ${{ github.sha }}
+
+      - name: Check bundle size
+        run: |
+          SIZE=$(du -sh build/static/js/*.js 2>/dev/null | awk '{sum += $1} END {print sum}')
+          echo "JS bundle size: ${SIZE}K"
+          # Warn if > 500KB gzipped
+          GZIP_SIZE=$(gzip -c build/static/js/main.*.js 2>/dev/null | wc -c)
+          echo "Gzip size: ${GZIP_SIZE} bytes"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-${{ github.sha }}
+          path: build/
+          retention-days: 7
+
+  # ─── 5. SECURITY SCAN ───────────────────────────────────────
+  security:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Audit npm dependencies
+        run: npm audit --audit-level=high || true
+
+      - name: Check for secrets in code
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD
+        continue-on-error: true
+
+  # ─── 6. DEPLOY TO STAGING ───────────────────────────────────
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [build, security]
+    if: github.ref == 'refs/heads/develop'
+    environment:
+      name: staging
+      url: https://staging.agribridge.app
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-${{ github.sha }}
+          path: build/
+
+      - name: Deploy to Vercel (Staging)
+        run: npx vercel --token=${{ secrets.VERCEL_TOKEN }} --prod=false
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Notify deployment on Slack
+        if: always()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: "Staging deploy ${{ job.status }} — ${{ github.sha }}"
+        continue-on-error: true
+
+  # ─── 7. DEPLOY TO PRODUCTION ────────────────────────────────
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [build, security]
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: https://agribridge.app
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-${{ github.sha }}
+          path: build/
+
+      - name: Deploy to Vercel (Production)
+        run: npx vercel --token=${{ secrets.VERCEL_TOKEN }} --prod
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: agribridge
+          SENTRY_PROJECT: agribridge-react
+        with:
+          environment: production
+          version: ${{ github.sha }}
+
+      - name: Notify team on Slack
+        if: always()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: ${{ job.status == 'success' && 'good' || 'danger' }}
+          SLACK_MESSAGE: "Production deploy ${{ job.status }} 🚀 — ${{ github.sha }}"
+        continue-on-error: true

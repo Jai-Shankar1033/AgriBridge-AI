@@ -1,23 +1,33 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Dependencies
+node_modules/
+server/node_modules/
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# production
-/build
-
-# misc
-.DS_Store
+# Environment — NEVER commit these
+.env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.production
+server/.env
 
+# Build outputs
+build/
+dist/
+
+# Logs
+*.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+.idea/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Uploads (user images — store in S3)
+uploads/
+public/uploads/

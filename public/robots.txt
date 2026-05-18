@@ -1,3 +1,8 @@
-# https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+
+# Disallow private API routes
+Disallow: /api/
+Disallow: /admin/
+
+Sitemap: https://agribridge.app/sitemap.xml

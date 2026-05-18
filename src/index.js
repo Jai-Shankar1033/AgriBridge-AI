@@ -2,16 +2,29 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import ErrorBoundary from './components/ErrorBoundary';
+import { ToastProvider } from './components/Toast';
+import ConsentBanner from './components/ConsentBanner';
+import { initAnalytics } from './analytics';
 import reportWebVitals from './reportWebVitals';
+
+// Init analytics + PWA service worker
+initAnalytics();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundary>
+      <ToastProvider>
+        <App />
+        <ConsentBanner onAccept={(consent) => {
+          if (consent.analytics && window.mixpanel) window.mixpanel.opt_in_tracking();
+        }} />
+      </ToastProvider>
+    </ErrorBoundary>
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals(({ name, value }) => {
+  if (window.mixpanel) window.mixpanel.track('Web Vital', { metric: name, value: Math.round(value) });
+});

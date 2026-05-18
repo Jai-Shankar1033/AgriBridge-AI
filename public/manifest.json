@@ -1,25 +1,24 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "AgriBridge",
+  "name": "AgriBridge – Harvesting Intelligence",
+  "description": "India's smart farming super-app. AI crop doctor, mandi prices, IoT sensors.",
   "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
+    { "src": "favicon.ico", "sizes": "64x64 32x32 24x24 16x16", "type": "image/x-icon" },
+    { "src": "logo192.png", "type": "image/png", "sizes": "192x192", "purpose": "any maskable" },
+    { "src": "logo512.png", "type": "image/png", "sizes": "512x512", "purpose": "any maskable" }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "orientation": "portrait",
+  "theme_color": "#0a1a0f",
+  "background_color": "#f0faf4",
+  "categories": ["agriculture", "utilities", "productivity"],
+  "lang": "en-IN",
+  "shortcuts": [
+    { "name": "AI Plant Doctor", "short_name": "Doctor", "description": "Diagnose crop disease", "url": "/?feature=plant-doctor", "icons": [{ "src": "logo192.png", "sizes": "192x192" }] },
+    { "name": "Mandi Prices", "short_name": "Prices", "description": "Live market prices", "url": "/?feature=prices", "icons": [{ "src": "logo192.png", "sizes": "192x192" }] }
+  ],
+  "screenshots": [
+    { "src": "logo512.png", "sizes": "512x512", "type": "image/png" }
+  ]
 }
