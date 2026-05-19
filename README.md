@@ -234,7 +234,7 @@ git
 ### 1. Clone
 
 ```bash
-git clone https://github.com/your-username/agri-bridge-ai.git
+git clone https://github.com/Jai-Shankar1033/AgriBridge-AI.git
 cd agri-bridge-ai
 ```
 
@@ -384,7 +384,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a pull request.
 
 ## 🔒 Security
 
-AgriBridge AI takes security seriously. If you discover a vulnerability, please open a [security advisory](https://github.com/your-username/agri-bridge-ai/security/advisories/new) rather than a public issue.
+AgriBridge AI takes security seriously. If you discover a vulnerability, please open a [security advisory](https://github.com/Jai-Shankar1033/AgriBridge-AI/security/advisories/new) rather than a public issue.
 
 See [SECURITY.md](SECURITY.md) for our disclosure policy.
 
@@ -392,7 +392,7 @@ See [SECURITY.md](SECURITY.md) for our disclosure policy.
 
 ## 📜 License
 
-MIT License © 2026 [Jai Shankar](https://github.com/your-username)
+MIT License © 2026 [Jai Shankar](https://github.com/Jai-Shankar1033)
 
 ---
 
