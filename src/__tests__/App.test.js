@@ -1,3 +1,13 @@
+// Mock browser APIs not available in jsdom
+global.navigator.geolocation = {
+  getCurrentPosition: jest.fn((success) => success({
+    coords: { latitude: 28.6139, longitude: 77.2090 }
+  })),
+};
+
+global.matchMedia = global.matchMedia || function () {
+  return { matches: false, addListener: jest.fn(), removeListener: jest.fn() };
+};
 // AgriBridge Unit Tests
 // Run: npm test
 
