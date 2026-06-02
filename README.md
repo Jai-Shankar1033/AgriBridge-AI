@@ -392,7 +392,7 @@ See [SECURITY.md](SECURITY.md) for our disclosure policy.
 
 ## 📜 License
 
-MIT License © 2026 [Jai Shankar](https://github.com/Jai-Shankar1033)
+MIT License © 2026 [JaiShankar](https://github.com/Jai-Shankar1033)
 
 ---
 
