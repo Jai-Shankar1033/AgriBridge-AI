@@ -96,7 +96,7 @@ Long-term vision includes enabling:
 | 💳 **Harvest Fintech** | BNPL & carbon credit marketplace | ✅ Live |
 | 🤖 **AI Agronomist** | LLM-powered crop advisory chatbot | 🔄 Beta |
 | 🔗 **Supply Chain** | QR-based farm-to-fork traceability | 🔄 Beta |
-
+| 🧪 **Pesticide Advisor** |AI-powered pesticide recommendations with trusted resources | 🚧 Coming Soon |
 </div>
 
 ---
