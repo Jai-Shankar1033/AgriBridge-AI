@@ -1,6 +1,6 @@
 # Contributing to AgriBridge AI
 
-First off, thank you for considering contributing to AgriBridge AI 🌾 
+First off, thank you for considering contributing to AgriBridge AI 🌾 <br>
 We're building the digital operating system for global agriculture, and every contribution (code, docs, design, bug reports, ideas) helps farmers get better tools.
 
 ## Table of Contents
