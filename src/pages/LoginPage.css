@@ -1,0 +1,174 @@
+/* src/pages/LoginPage.css
+   Mobile-first, high-contrast styling for the AgriBridge AI login page. */
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background: #f4f7f0;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8dd;
+  padding: 32px 24px;
+  box-shadow: 0 4px 24px rgba(31, 61, 27, 0.06);
+}
+
+.login-brand {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.login-brand-mark {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.login-brand h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1f3d1b;
+  margin: 8px 0 4px;
+}
+
+.login-subtitle {
+  font-size: 14px;
+  color: #5c6b57;
+  margin: 0;
+}
+
+.login-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  background: #f1f4ee;
+  border-radius: 10px;
+  padding: 4px;
+}
+
+.login-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #5c6b57;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.login-tab.active {
+  background: #ffffff;
+  color: #1f7a3d;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2f3d2c;
+  margin: 12px 0 6px;
+}
+
+.login-form input {
+  font-size: 16px; /* prevents iOS zoom-on-focus */
+  padding: 12px 14px;
+  border: 1px solid #d7ddd1;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.login-form input:focus {
+  border-color: #2f9e4f;
+  box-shadow: 0 0 0 3px rgba(47, 158, 79, 0.15);
+}
+
+.login-hint {
+  font-size: 12px;
+  color: #7a8774;
+  margin: 6px 0 0;
+}
+
+.login-link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #1f7a3d;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.login-submit {
+  margin-top: 20px;
+  padding: 13px 16px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  background: #2f9e4f;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+
+.login-submit:hover:not(:disabled) {
+  background: #26843f;
+}
+
+.login-submit:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.login-submit:disabled {
+  background: #a9c9ac;
+  cursor: not-allowed;
+}
+
+.login-error {
+  background: #fdecec;
+  border: 1px solid #f3b8b8;
+  color: #8a2c2c;
+  font-size: 13px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.login-footer {
+  text-align: center;
+  font-size: 13px;
+  color: #5c6b57;
+  margin-top: 20px;
+}
+
+.login-footer a {
+  color: #1f7a3d;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-footer a:hover {
+  text-decoration: underline;
+}
+
+@media (min-width: 480px) {
+  .login-card {
+    padding: 40px 32px;
+  }
+}
