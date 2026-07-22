@@ -214,11 +214,15 @@ AgriBridge AI follows a:
 ### UX Goals
 
 * Simplify complex agricultural workflows
-* Support low-bandwidth environments
-* Enable multilingual accessibility
+* Support low-bandwidth and unreliable network environments
+* Enable multilingual accessibility for rural users
 * Build trust for first-time digital users
-
----
+* Provide a secure, intuitive, and animated login experience
+* Minimize user input with OTP, email 
+* Ensure responsive design across mobile, tablet, and desktop devices
+* Reduce cognitive load with clean layouts and guided interactions
+* Deliver smooth micro-interactions and animations without affecting performance
+* Maintain accessibility (WCAG) with readable typography and high-contrast UI
 
 
 ## 🚀 Quick Start
